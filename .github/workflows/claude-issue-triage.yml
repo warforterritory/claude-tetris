@@ -75,7 +75,7 @@ jobs:
                - Tipo (exactamente 1): bug, enhancement, documentation, question
                - Área (1 o 2): area: gameplay, area: rendering, area: controls, area: scoring, area: ui
                - Prioridad (exactamente 1): priority: high, priority: medium, priority: low
-            3. Crea el archivo `.triage/diagnosis.md`, en español, en Markdown, con estas secciones (sin título H1):
+            3. Crea el archivo `.triage/diagnosis.md`, en español, con estas secciones (sin título H1). Todo el contenido debe estar en formato Markdown compatible con GitHub (GFM), porque se publicará tal cual como comentario del issue: usa encabezados `##`, listas con `-` o numeradas, `código en línea` con backticks, bloques de código con triple backtick y lenguaje (```js), y tablas GFM o casillas `- [ ]` solo si aportan. No uses HTML ni Markdown que GitHub no renderice:
                ## Resumen
                ## Clasificación (labels elegidos y justificación breve)
                ## Causa probable / análisis
