@@ -12,7 +12,7 @@ Open `index.html` directly, or serve statically (e.g. `python -m http.server 800
 
 ## Architecture
 
-All logic lives in `game.js` (loaded as a classic script by `index.html`; there are no modules). It binds to DOM ids defined in `index.html` (`board`, `next-canvas`, `score`, `lines`, `level`, `overlay`, `overlay-title`, `overlay-score`, `restart-btn`), so renaming an id requires updating both files.
+All logic lives in `game.js` (loaded as a classic script by `index.html`; there are no modules). It binds to DOM ids defined in `index.html` (`board`, `next-canvas`, `score`, `lines`, `level`, `overlay`, `overlay-title`, `overlay-score`, `restart-btn`, `theme-toggle`), so renaming an id requires updating both files.
 
 - State is a set of module-level `let` globals (`board`, `current`, `next`, `score`, `lines`, `level`, `paused`, `gameOver`, `dropInterval`, `animId`, ...), reset by `init()`. `init()` is also the restart handler.
 - Piece lifecycle: `spawn()` promotes `next` to `current`; `lockPiece()` = `merge()` → `clearLines()` → `spawn()`. Game over is detected in `spawn()` (new piece collides) and calls `endGame()`.
@@ -21,3 +21,4 @@ All logic lives in `game.js` (loaded as a classic script by `index.html`; there 
 - Rotation is `rotateCW` plus a horizontal-only kick list `[0,-1,1,-2,2]` in `tryRotate` (no floor kicks, no SRS).
 - Canvas size is coupled to constants: `#board` must be `COLS*BLOCK` × `ROWS*BLOCK` (300×600) in `index.html`; `#next-canvas` is 120×120 with a 4×4 grid of 30px blocks (`drawNext`).
 - Scoring: `LINE_SCORES[cleared] * level`; soft drop +1/row, hard drop +2/row; level = `floor(lines/10)+1`; `dropInterval = max(100, 1000 - (level-1)*90)` ms (the 1000 initial value is duplicated in `init()` and `clearLines()`).
+- Theming: all colors in `style.css` are CSS variables (`:root` = dark default, `[data-theme="light"]` on `<html>` = light). `game.js` reads `--grid` and `--block-highlight` into `themeColors` via `readThemeColors()` (called by `applyTheme()`), which also repaints with `draw()`/`drawNext()` because `loop` is stopped when paused/game over. The choice persists in `localStorage` key `tetris-theme` (wrapped in try/catch). The toggle button calls `blur()` so `Space` doesn't re-trigger it.
