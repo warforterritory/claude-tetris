@@ -42,6 +42,8 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
+- **Pantalla de inicio**: el juego no empieza hasta pulsar **Jugar** (o `Enter`).
+- **Tabla de records (Top 5)** guardada en `localStorage`: nombre, puntos, líneas y mejor combo de cada partida. Se muestra en la pantalla de inicio y en el Game Over; si tu puntuación entra en el top, escribes tu nombre (máx. 12 caracteres, `Enter` o **Guardar**) y tu fila queda resaltada. También se guardan el **mejor combo** (piezas consecutivas que limpian líneas) y las **líneas máximas** de todas las partidas. El botón **Borrar records** de la pantalla de inicio los elimina.
 
 ---
 
@@ -100,7 +102,8 @@ Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
 - Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
-- Un overlay para los estados **PAUSA** y **GAME OVER**.
+- Un overlay para los estados **PAUSA** y **GAME OVER** (con el formulario de nombre y la tabla de records).
+- Un overlay `#start-screen` con la tabla de records y los botones **Jugar** y **Borrar records**.
 - Un botón `#theme-toggle` para alternar entre modo oscuro (por defecto) y claro.
 
 ### 2. `style.css`
@@ -124,7 +127,9 @@ Contiene toda la lógica del juego. A grandes rasgos:
 ### Flujo del juego
 
 ```
-init()
+showStartScreen()  → tabla de records; espera a Jugar / Enter
+  ↓
+startGame() → init()
   ├─ createBoard()                  → matriz vacía
   ├─ next = randomPiece()
   ├─ spawn()                        → mueve next a current y genera nueva next
