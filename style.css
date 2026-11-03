@@ -93,6 +93,38 @@ body {
   border-color: var(--accent);
 }
 
+/* ---- Selector de skin ---- */
+.skin-picker {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#skin-select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+#skin-select:hover,
+#skin-select:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+
 .wrapper {
   position: relative;
 }
